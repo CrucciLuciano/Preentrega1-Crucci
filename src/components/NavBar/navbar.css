@@ -1,6 +1,8 @@
 .nav-bar {
     display: flex;
     border: 2px solid black;
+    justify-content: space-around;
+    background-color: rgb(209, 208, 208);
 }
 
 ul {
@@ -25,4 +27,5 @@ ul li {
     font-size: 20px;
     border: 1px solid black;
     text-align: center;
+    margin: 2px;
 }
