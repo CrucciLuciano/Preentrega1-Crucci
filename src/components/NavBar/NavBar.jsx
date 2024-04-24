@@ -5,7 +5,7 @@ const NavBar = () => {
     return (
         <div className="nav-bar">
             <div>
-                <img style={{ width: "100px" }} src="https://i.pinimg.com/originals/aa/92/89/aa9289de1ed2865bccd7c7457f246482.jpg" />
+                <img style={{ width: "100px" }} src="public\logokfc.png" />
             </div>
             <ul>
                 <li><a href="#">Patitas</a></li>
