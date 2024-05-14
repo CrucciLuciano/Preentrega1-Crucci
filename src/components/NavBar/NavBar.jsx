@@ -1,16 +1,17 @@
 import CartWidget from "./CartWidget"
 import "./navbar.css"
+import { Link } from "react-router-dom"
 
 const NavBar = () => {
     return (
         <div className="nav-bar">
-            <div>
-                <img style={{ width: "100px" }} src="public\logokfc.png" />
-            </div>
+            <Link to="/" >
+                <img style={{ width: "100px" }} src="\logokfc.png" />
+            </Link>
             <ul>
-                <li><a href="#">Patitas</a></li>
-                <li><a href="#">Alitas</a></li>
-                <li><a href="#">Hamburguesa</a></li>
+                <Link to="/category/patitas" className="category">Patitas</Link>
+                <Link to="/category/alitas" className="category">Alitas</Link>
+                <Link to="/category/hamburguesa" className="category">Hamburguesa</Link>
             </ul>
             <CartWidget />
         </div>
