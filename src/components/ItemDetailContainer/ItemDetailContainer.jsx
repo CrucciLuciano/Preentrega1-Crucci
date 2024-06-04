@@ -1,28 +1,42 @@
 import { useEffect, useState } from "react"
-import { getProductsByID } from "../data/data.js"
 import ItemDetail from "./ItemDetail.jsx"
 import { useParams } from "react-router-dom"
+import { doc, getDoc } from "firebase/firestore"
+import db from "../../db/db.js"
+import { toast } from "react-toastify"
+import useLoading from "../hooks/useLoading.jsx"
 
 const ItemDetailContainer = () => {
-    const [product, setProducts] = useState([])
-    const { idProduct } = useParams()
+    const [product, setProduct] = useState(null);
+    const { idProduct } = useParams();
+    const { loadingScreen } = useLoading()
+
+    const getProduct = async () => {
+        const productRef = doc(db, "products", idProduct);
+        try {
+            const productDb = await getDoc(productRef);
+            if (productDb.exists()) {
+                const data = { id: productDb.id, ...productDb.data() };
+                setProduct(data);
+            } else {
+                setProduct(null); // Reiniciar el estado del producto
+                toast.error("El producto no existe");
+            }
+        } catch (error) {
+            toast.error(error);
+        }
+    }
+
     useEffect(() => {
-        getProductsByID(idProduct)
-            .then((data) => {
-                setProducts(data)
-            })
-            .catch((error) => {
-                console.error(error)
-            })
-            .finally(() => {
-                console.log("finalizo la promesa")
-            })
-    }, [])
+        getProduct();
+    }, [idProduct]); // Usar idProduct en la dependencia del useEffect
+
     return (
         <div>
-            <ItemDetail product={product} />
+            {product ? <ItemDetail product={product} /> : loadingScreen}
         </div>
-    )
+    );
 }
+
 
 export default ItemDetailContainer
