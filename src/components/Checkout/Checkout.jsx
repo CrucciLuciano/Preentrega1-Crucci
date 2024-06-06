@@ -11,7 +11,8 @@ const Checkout = () => {
     const [dataForm, setDataForm] = useState({
         name: "",
         phone: "",
-        email: ""
+        email: "",
+        confirmEmail: ""
     })
 
     const [idOrden, setIdOrder] = useState(null)
@@ -23,21 +24,25 @@ const Checkout = () => {
 
     const handleSubmitForm = async (event) => {
         event.preventDefault()
-        const order = {
-            buyer: { ...dataForm },
-            products: [...cart],
-            date: Timestamp.fromDate(new Date()),
-            total: allPrice()
-        }
-        try {
-            const response = await validateForm(dataForm)
-            if (response.status === "success") {
-                generateOrder(order)
-            } else {
-                toast.warning(response.message)
+        if (dataForm.email === dataForm.confirmEmail) {
+            const order = {
+                buyer: { ...dataForm },
+                products: [...cart],
+                date: Timestamp.fromDate(new Date()),
+                total: allPrice()
             }
-        } catch (error) {
-            toast.error(error)
+            try {
+                const response = await validateForm(dataForm)
+                if (response.status === "success") {
+                    generateOrder(order)
+                } else {
+                    toast.warning(response.message)
+                }
+            } catch (error) {
+                toast.error(error)
+            }
+        } else {
+            toast.warning("Revisa la casilla email")
         }
     }
 
